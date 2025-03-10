@@ -1,91 +1,83 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض المنتج بتقنية AR</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
+            background: #f9f9f9;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f3f3f3;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
-        /* إخفاء زر AR التلقائي */
-        model-viewer > * { 
-            display: none !important; 
+        .main-image {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
         }
-
-        #ar-button {
+        .hidden {
+            display: none;
+        }
+        .ar-button {
             width: 80%;
             max-width: 300px;
-            height: 80px; /* زيادة ارتفاع الزر */
+            height: 60px;
             background-color: #ff9800;
             color: white;
-            font-size: 24px; /* زيادة حجم الخط */
+            font-size: 18px;
             font-weight: bold;
             border: none;
-            border-radius: 15px;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
-        }
-
-        #ar-button:hover {
-            background-color: #e68900;
-            transform: scale(1.05);
-        }
-
-        #loading-text {
-            display: none;
-            font-size: 20px;
-            margin: 10px 0;
-            color: #333;
-        }
-
-        model-viewer {
-            width: 50vw;
-            height: 30vh;
-            display: none; /* مخفي في البداية */
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-
-    <button id="ar-button">🚀 عرض في الواقع المعزز</button>
-    <p id="loading-text">⏳ انتظر قليلاً...</p>
-
-    <model-viewer 
-        id="ar-viewer"
-        src="https://raw.githubusercontent.com/tikichtika/3D-models/main/nabta.glb" 
-        ar 
-        ar-modes="scene-viewer quick-look"
-        camera-controls 
-        auto-rotate>
-    </model-viewer>
+    <div class="container">
+        <img id="product-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Lj3_8eh0xYQLDhyh1pYwOF6l00mL7hIfww&s" alt="Chicken Roast" class="main-image">
+        
+        <model-viewer id="ar-viewer" class="hidden"
+            src="https://raw.githubusercontent.com/tikichtika/3D-models/main/nabta.glb" 
+            ar 
+            ar-modes="scene-viewer quick-look"
+            camera-controls 
+            auto-rotate>
+        </model-viewer>
+        
+        <button class="ar-button" id="toggle-view">👀 عرض في الواقع المعزز</button>
+    </div>
 
     <script>
-        document.getElementById('ar-button').addEventListener('click', function() {
-            const modelViewer = document.getElementById('ar-viewer');
-            const loadingText = document.getElementById('loading-text');
-
-            // إخفاء الزر وإظهار نص التحميل
-            this.style.display = 'none';
-            loadingText.style.display = 'block';
-
-            // بعد ثانيتين، إظهار 3D وفتح AR
-            setTimeout(() => {
-                loadingText.style.display = 'none';
-                modelViewer.style.display = 'block';
-
-                // استدعاء AR مباشرة من الحدث
-                modelViewer.activateAR();
-            }, 2000);
+        document.getElementById('toggle-view').addEventListener('click', function() {
+            const productImage = document.getElementById('product-image');
+            const arViewer = document.getElementById('ar-viewer');
+            
+            if (productImage.classList.contains('hidden')) {
+                productImage.classList.remove('hidden');
+                arViewer.classList.add('hidden');
+                this.textContent = '👀 عرض في الواقع المعزز';
+            } else {
+                productImage.classList.add('hidden');
+                arViewer.classList.remove('hidden');
+                arViewer.activateAR();
+                this.textContent = '📸 عرض الصورة';
+            }
         });
     </script>
-
 </body>
 </html>
