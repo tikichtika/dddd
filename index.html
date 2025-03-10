@@ -46,29 +46,14 @@
             color: #333;
         }
 
-        .option-buttons {
-            display: none;
-        }
-
-        .option-buttons button {
-            margin: 5px;
-            padding: 10px 20px;
-            font-size: 16px; /* تصغير حجم خط أزرار الخيارات */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-        }
-
         model-viewer {
             width: 50vw;
             height: 30vh;
-            display: none;
+            display: none; /* مخفي في البداية */
         }
 
         @media (min-width: 768px) {
-            #ar-button, #loading-text, .option-buttons {
+            #ar-button, #loading-text {
                 display: none;
             }
 
@@ -83,8 +68,6 @@
     <button id="ar-button">🚀 عرض في الواقع المعزز</button>
     <p id="loading-text">⏳ انتظر قليلاً...</p>
 
-    
-
     <model-viewer 
         id="ar-viewer"
         src="https://raw.githubusercontent.com/tikichtika/3D-models/main/nabta.glb" 
@@ -93,20 +76,20 @@
         camera-controls 
         auto-rotate>
     </model-viewer>
-    <p id="loading-text">⏳ انتظر قليلاً...</p>
 
     <script>
         document.getElementById('ar-button').addEventListener('click', function() {
             const modelViewer = document.getElementById('ar-viewer');
             const loadingText = document.getElementById('loading-text');
-            const optionButtons = document.querySelector('.option-buttons');
 
-            // عرض نص الانتظار
+            // إخفاء الزر وعرض نص التحميل
+            this.style.display = 'none';
             loadingText.style.display = 'block';
 
-            // بعد ثانيتين، عرض الأزرار وفتح AR
+            // بعد ثانيتين، إظهار 3D وفتح AR
             setTimeout(() => {
-                optionButtons.style.display = 'block';
+                loadingText.style.display = 'none';
+                modelViewer.style.display = 'block';
                 modelViewer.activateAR();
             }, 2000);
         });
