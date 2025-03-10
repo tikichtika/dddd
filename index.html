@@ -51,16 +51,6 @@
             height: 30vh;
             display: none; /* مخفي في البداية */
         }
-
-        @media (min-width: 768px) {
-            #ar-button, #loading-text {
-                display: none;
-            }
-
-            model-viewer {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
@@ -82,7 +72,7 @@
             const modelViewer = document.getElementById('ar-viewer');
             const loadingText = document.getElementById('loading-text');
 
-            // إخفاء الزر وعرض نص التحميل
+            // إخفاء الزر وإظهار نص التحميل
             this.style.display = 'none';
             loadingText.style.display = 'block';
 
@@ -90,6 +80,8 @@
             setTimeout(() => {
                 loadingText.style.display = 'none';
                 modelViewer.style.display = 'block';
+
+                // استدعاء AR مباشرة من الحدث
                 modelViewer.activateAR();
             }, 2000);
         });
